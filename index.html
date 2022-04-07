@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles/main.css">
+  <script src="scripts/app.js" charset="utf-8"></script>
+  <title>Frogger</title>
+</head>
+
+<body>
+  <header>
+    <h1>FROGGER</h1>
+    <!-- optional high score stored on localstorage -->
+    <p>Hi-Score: <span id="hi-score">0</span></p>
+  </header>
+  <main>
+    <!-- player lives, score and game level will update -->
+    <section class="game-info">
+      <p>Level: <span id="level">0</span></p>
+      <p>Score: <span id="score">0</span></p>
+      <p>Lives: <span id="lives">0</span></p>
+    </section>
+    <!-- container for grid -->
+    <section class="game-grid-wrapper">
+      <!-- actual game grid, grid cells generated from javascript-->
+      <div class="grid"></div>
+    </section>
+    <!-- starts game and resets game info-->
+    <button id="start-btn"></button>
+<!-- optional sound things -->
+    <audio id="audio" src=""></audio>
+    <audio id="bg-audio" src=""></audio>
+  </main>
+</body>
+
+</html>
