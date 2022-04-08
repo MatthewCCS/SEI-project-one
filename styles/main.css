@@ -21,7 +21,19 @@ main {
   margin: 0 auto;
 }
 .game-info{
-  display:flex;
+  display: flex;
+  justify-content: space-between;
+  width: 600px;
+  margin: 0 auto;
+}
+.game-info p{
+  border: 1px solid lightgray;
+  width: calc(100% / 3 - 10px);
+  text-align: left;
+  padding: 5px 10px;
+}
+#start-btn{
+  margin: 10px;
 }
 /* grid stuff  */
 .game-grid-wrapper {
@@ -64,7 +76,7 @@ main {
 }
 
 .finish {
-  background-color: rgba(173, 216, 230, 0.5);
+  border: 1px dotted rgba(173, 216, 230, 0.5);
 }
 
 .bad {
@@ -72,5 +84,5 @@ main {
 }
 
 .home {
-  background-color: lightgreen;
+  border: 1px dotted lightgreen;
 }

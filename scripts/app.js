@@ -2,6 +2,7 @@ function init() {
 
   //elements
   const grid = document.querySelector('.grid')
+  const startButton = document.querySelector('#start-btn')
 
   //* variables
   //grid variables
@@ -10,25 +11,31 @@ function init() {
   let cells = []
   let homeRowStart = (width * width) - width
   let totalGrid = width * width
+
   // player variables
   const playerClass = 'player'
   let homePosition = ((width * width) - (Math.ceil(width / 2)))
   let currentPosition = homePosition
+  // enemy variables
+  const enemyOneClass = 'badOne'
+  const enemyTwoClass = 'badTwo'
+
   // Level variable
-  let score = document.querySelector('.score')
-  let lives = document.querySelector('.lives')
-  let level = document.querySelector('.level')
+  const score = document.querySelector('#score')
+  const lives = document.querySelector('#lives')
+  const level = document.querySelector('#level')
+  let currentScore = 0
+  let currentLives = 3
+  let currentLevel = 1
+
+
 
   //? ====== Level ======
 
   //exe 
-  function winCondition(position) {
-    if (cells[position].classList.contains('finish')){
-      score += 10
-      level += 1
-      removePlayer(currentPosition)
-      addPlayer(homePosition)
-    }
+  function randomPosition() {
+    let randomPosition = Math.floor(Math.random() * totalGrid)
+    return randomPosition
   }
   // function loseCondition(event) {
   // }
@@ -40,13 +47,29 @@ function init() {
   //* add/remove player
   function addPlayer(position) {
     cells[position].classList.add('player')
-    if (cells[position].classList.contains('finish')){
-      score += 10
-      level += 1
+    if (cells[position].classList.contains('finish')) {
+      currentScore += 100
+      score.innerHTML = `${currentScore}`
+      currentLevel += 1
+      level.innerHTML = `${currentLevel}`
       removePlayer(currentPosition)
       currentPosition = homePosition
       addPlayer(currentPosition)
       console.log(score)
+      console.log(currentLives)
+    } else if (cells[position].classList.contains('enemyOne')) {
+      if (currentLives > 0) {
+        currentLives--
+        lives.innerHTML = `${currentLives}`
+        currentScore -= 10
+        score.innerHTML = `${currentScore}`
+        removePlayer(currentPosition)
+        currentPosition = homePosition
+        addPlayer(currentPosition)
+        console.log(currentLives)
+      } else {
+        removePlayer(currentPosition)
+      }
     }
   }
   function removePlayer(position) {
@@ -55,31 +78,56 @@ function init() {
 
   //* player movement
   function keyPress(event) {
-    const key = event.keyCode
-    const up = 38
-    const down = 40
-    const left = 37
-    const right = 39
+    if (currentLives > 0) {
+      const key = event.keyCode
+      const up = 38
+      const down = 40
+      const left = 37
+      const right = 39
 
-    removePlayer(currentPosition) // remove player 
+      removePlayer(currentPosition) // remove player 
 
-    if (key === up && currentPosition >= width) {
-      currentPosition -= width
-    
-    } else if (key === down && currentPosition + width <= cellCount - 1) {
-      currentPosition += width
-    } else if (key === left && currentPosition % width !== 0) {
-      currentPosition--
-    } else if (key === right && currentPosition % width !== width - 1) {
-      currentPosition++
-    } else {
-      console.log('Invalid Key')
+      if (key === up && currentPosition >= width) {
+        currentPosition -= width
+        currentScore += 10
+        score.innerHTML = `${currentScore}`
+      } else if (key === down && currentPosition + width <= cellCount - 1) {
+        currentScore -= 5
+        score.innerHTML = `${currentScore}`
+        currentPosition += width
+      } else if (key === left && currentPosition % width !== 0) {
+        currentPosition--
+      } else if (key === right && currentPosition % width !== width - 1) {
+        currentPosition++
+      } else {
+        console.log('Invalid Key')
+      }
+
+      addPlayer(currentPosition)
+    } else{
+      console.log('gameover')
     }
-
-    addPlayer(currentPosition)
   }
   //event
   document.addEventListener('keydown', keyPress)
+
+
+  //? ====== Enemy ======
+  function addBaddy(position) {
+    if (cells[position].classList.contains('finish') === false && cells[position].classList.contains('home') === false) {
+      cells[position].classList.add('enemyOne')
+    }
+  }
+  function removeBaddy(position) {
+    if (cells[position].classList.contains('finish') === false && cells[position].classList.contains('home') === false) {
+      cells[position].classList.add('enemyOne')
+    }
+  }
+  function clearBaddy() {
+    for (let i = 0; i < totalGrid; i++) {
+      cells[i].classList.remove('enemyOne')
+    }
+  }
 
 
   //? ====== grid ======
@@ -112,9 +160,26 @@ function init() {
       cells[i].classList.add('finish')
     }
   }
+  //? game start/end 
 
+  /// ?======== events =======
   setFinish()
   setHome()
-  addPlayer(homePosition)
+
+  function startgame() {
+    clearBaddy()
+    currentScore = 0
+    currentLives = 3
+    currentLevel = 1
+    score.innerHTML = `${currentScore}`
+    lives.innerHTML = `${currentLives}`
+    level.innerHTML = `${currentLevel}`
+    currentPosition = homePosition
+    addPlayer(homePosition)
+    addBaddy(randomPosition())
+    addBaddy(randomPosition())
+    addBaddy(randomPosition())
+  }
+  startButton.addEventListener('click', startgame)
 }
 window.addEventListener('DOMContentLoaded', init)
