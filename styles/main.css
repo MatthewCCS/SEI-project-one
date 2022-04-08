@@ -20,7 +20,9 @@ main {
   width: 70%;
   margin: 0 auto;
 }
-
+.game-info{
+  display:flex;
+}
 /* grid stuff  */
 .game-grid-wrapper {
   /* height: 100vh; */
@@ -62,7 +64,7 @@ main {
 }
 
 .finish {
-  background-color: lightblue;
+  background-color: rgba(173, 216, 230, 0.5);
 }
 
 .bad {
