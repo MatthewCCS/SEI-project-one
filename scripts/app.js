@@ -19,6 +19,13 @@ function init() {
   // enemy variables
   const enemyOneClass = 'badOne'
   const enemyTwoClass = 'badTwo'
+  let baddyStart1 = width
+  let baddyStart2 = (width * 3) - 1
+  let baddyStart3 = width * 3
+  let enemyOneCurPos = baddyStart1
+  let enemyTwoCurPos = baddyStart2
+  let enemyThreeCurPos = baddyStart3
+
 
   // Level variable
   const score = document.querySelector('#score')
@@ -104,7 +111,7 @@ function init() {
       }
 
       addPlayer(currentPosition)
-    } else{
+    } else {
       console.log('gameover')
     }
   }
@@ -113,23 +120,71 @@ function init() {
 
 
   //? ====== Enemy ======
-  function addBaddy(position) {
-    if (cells[position].classList.contains('finish') === false && cells[position].classList.contains('home') === false) {
-      cells[position].classList.add('enemyOne')
-    }
+
+  //* add enemy
+  function addBaddyOne(position) {
+    // if (cells[position].classList.contains('finish') === false && cells[position].classList.contains('home') === false) { // random spwan static mob
+    //   cells[position].classList.add('enemyOne')
+    // }
+    cells[position].classList.add('enemyOne')
+  }
+  function addBaddyTwo(position) {
+    // if (cells[position].classList.contains('finish') === false && cells[position].classList.contains('home') === false) { // random spwan static mob
+    //   cells[position].classList.add('enemyOne')
+    // }
+    cells[position].classList.add('enemyTwo')
+  }
+  function addBaddyThree(position) {
+    // if (cells[position].classList.contains('finish') === false && cells[position].classList.contains('home') === false) { // random spwan static mob
+    //   cells[position].classList.add('enemyOne')
+    // }
+    cells[position].classList.add('enemyThree')
   }
   function removeBaddy(position) {
-    if (cells[position].classList.contains('finish') === false && cells[position].classList.contains('home') === false) {
-      cells[position].classList.add('enemyOne')
-    }
+    cells[position].classList.remove('enemyOne')
+    cells[position].classList.remove('enemyTwo')
+    cells[position].classList.remove('enemyThree')
+
   }
   function clearBaddy() {
     for (let i = 0; i < totalGrid; i++) {
       cells[i].classList.remove('enemyOne')
     }
   }
-
-
+  //* enemy movement
+  function baddyMoveRight(take, give, current, start, x) {
+    countTimer = setInterval(() => {
+      take(current)
+      if (current === (width * 2) - 1) {
+        take(current)
+        give(start)
+        current = start - 1
+        current++
+      } else if(current === (width * 4) - 1) {
+        take(current)
+        give(start)
+        current = start - 1
+        current++
+      } else {
+        current++
+        give(current)
+      }
+    }, x)
+  }
+  function baddyMoveLeft(take, give, current, start, x) {
+    countTimer = setInterval(() => {
+      take(current)
+    if (current === width * 2) {
+      take(current)
+      give(start)
+      current = start + 1
+      current --
+    } else {
+      current --
+      give(current)
+    }
+  }, x)
+  }
   //? ====== grid ======
 
 
@@ -176,9 +231,14 @@ function init() {
     level.innerHTML = `${currentLevel}`
     currentPosition = homePosition
     addPlayer(homePosition)
-    addBaddy(randomPosition())
-    addBaddy(randomPosition())
-    addBaddy(randomPosition())
+    addBaddyOne(baddyStart1)
+    addBaddyTwo(baddyStart2)
+    addBaddyThree(baddyStart3)
+    baddyMoveRight(removeBaddy, addBaddyOne, enemyOneCurPos, baddyStart1, 1000)
+    baddyMoveLeft(removeBaddy, addBaddyTwo, enemyTwoCurPos, baddyStart2, 500)
+    baddyMoveRight(removeBaddy, addBaddyThree, enemyThreeCurPos, baddyStart3, 1500)
+
+
   }
   startButton.addEventListener('click', startgame)
 }

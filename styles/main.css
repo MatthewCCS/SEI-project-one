@@ -74,6 +74,9 @@ main {
 .enemyTwo {
   background-color: rgb(153, 0, 0);
 }
+.enemyThree {
+  background-color: rgb(75, 24, 24);
+}
 
 .finish {
   border: 1px dotted rgba(173, 216, 230, 0.5);
