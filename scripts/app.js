@@ -17,8 +17,7 @@ function init() {
   let homePosition = ((width * width) - (Math.ceil(width / 2)))
   let currentPosition = homePosition
   // enemy variables
-  const enemyOneClass = 'badOne'
-  const enemyTwoClass = 'badTwo'
+  const enemyClasses = ['enemyOne', 'enemyTwo', 'enemyThree']
   let baddyStart1 = width
   let baddyStart2 = (width * 3) - 1
   let baddyStart3 = width * 3
@@ -64,20 +63,13 @@ function init() {
       addPlayer(currentPosition)
       console.log(score)
       console.log(currentLives)
-    } else if (cells[position].classList.contains('enemyOne')) {
-      if (currentLives > 0) {
-        currentLives--
-        lives.innerHTML = `${currentLives}`
-        currentScore -= 10
-        score.innerHTML = `${currentScore}`
-        removePlayer(currentPosition)
-        currentPosition = homePosition
-        addPlayer(currentPosition)
-        console.log(currentLives)
-      } else {
-        removePlayer(currentPosition)
+    } else 
+      if (enemyClasses.some(className => cells[position].classList.contains(className))) {
+        playerTouch()
       }
-    }
+     //! if (cells[position].classList.contains('enemyOne') || cells[position].classList.contains('enemyTwo') || cells[position].classList.contains('enemyThree')) {}
+      
+
   }
   function removePlayer(position) {
     cells[position].classList.remove('player')
@@ -112,7 +104,21 @@ function init() {
 
       addPlayer(currentPosition)
     } else {
+      clearBaddy()
       console.log('gameover')
+    }
+  }
+  //* player collide
+  function playerTouch() {
+    if (currentLives > 0) {
+      currentLives--
+      lives.innerHTML = `${currentLives}`
+      currentScore -= 10
+      score.innerHTML = `${currentScore}`
+      removePlayer(currentPosition)
+      currentPosition = homePosition
+      addPlayer(currentPosition)
+      console.log(currentLives)
     }
   }
   //event
@@ -127,64 +133,86 @@ function init() {
     //   cells[position].classList.add('enemyOne')
     // }
     cells[position].classList.add('enemyOne')
+    if (cells[position].classList.contains('player')){
+      playerTouch()
+    }
   }
   function addBaddyTwo(position) {
     // if (cells[position].classList.contains('finish') === false && cells[position].classList.contains('home') === false) { // random spwan static mob
     //   cells[position].classList.add('enemyOne')
     // }
     cells[position].classList.add('enemyTwo')
+    if (cells[position].classList.contains('player')){
+      playerTouch()
+    }
   }
   function addBaddyThree(position) {
     // if (cells[position].classList.contains('finish') === false && cells[position].classList.contains('home') === false) { // random spwan static mob
     //   cells[position].classList.add('enemyOne')
     // }
     cells[position].classList.add('enemyThree')
+    if (cells[position].classList.contains('player')){
+      playerTouch()
+    }
   }
   function removeBaddy(position) {
-    cells[position].classList.remove('enemyOne')
-    cells[position].classList.remove('enemyTwo')
-    cells[position].classList.remove('enemyThree')
+    cells[position].classList.remove('enemyOne', 'enemyTwo' , 'enemyThree')
+    //! cells[position].classList.remove('enemyTwo')
+    //! cells[position].classList.remove('enemyThree')
 
   }
   function clearBaddy() {
     for (let i = 0; i < totalGrid; i++) {
-      cells[i].classList.remove('enemyOne')
+      cells[i].classList.remove('enemyOne', 'enemyTwo', 'enemyThree')
+      //! cells[i].classList.remove('enemyTwo')
+      //! cells[i].classList.remove('enemyThree')
     }
   }
   //* enemy movement
   function baddyMoveRight(take, give, current, start, x) {
     countTimer = setInterval(() => {
-      take(current)
-      if (current === (width * 2) - 1) {
+      if (currentLives > 0) {
         take(current)
-        give(start)
-        current = start - 1
-        current++
-      } else if(current === (width * 4) - 1) {
-        take(current)
-        give(start)
-        current = start - 1
-        current++
+        if (current === (width * 2) - 1) {
+          take(current)
+          give(start)
+          current = start - 1
+          current++
+        } else if (current === (width * 4) - 1) {
+          take(current)
+          give(start)
+          current = start - 1
+          current++
+        } else {
+          current++
+          give(current)
+        }
       } else {
-        current++
-        give(current)
+        clearBaddy()
+        clearInterval(countTimer)
       }
     }, x)
   }
   function baddyMoveLeft(take, give, current, start, x) {
     countTimer = setInterval(() => {
-      take(current)
-    if (current === width * 2) {
-      take(current)
-      give(start)
-      current = start + 1
-      current --
-    } else {
-      current --
-      give(current)
-    }
-  }, x)
+      if (currentLives > 0) {
+        take(current)
+        if (current === width * 2) {
+          take(current)
+          give(start)
+          current = start + 1
+          current--
+        } else {
+          current--
+          give(current)
+        }
+      } else {
+        clearBaddy()
+        clearInterval(countTimer)
+      }
+    }, x)
   }
+ 
   //? ====== grid ======
 
 
@@ -222,22 +250,23 @@ function init() {
   setHome()
 
   function startgame() {
-    clearBaddy()
-    currentScore = 0
-    currentLives = 3
-    currentLevel = 1
-    score.innerHTML = `${currentScore}`
-    lives.innerHTML = `${currentLives}`
-    level.innerHTML = `${currentLevel}`
-    currentPosition = homePosition
-    addPlayer(homePosition)
-    addBaddyOne(baddyStart1)
-    addBaddyTwo(baddyStart2)
-    addBaddyThree(baddyStart3)
-    baddyMoveRight(removeBaddy, addBaddyOne, enemyOneCurPos, baddyStart1, 1000)
-    baddyMoveLeft(removeBaddy, addBaddyTwo, enemyTwoCurPos, baddyStart2, 500)
-    baddyMoveRight(removeBaddy, addBaddyThree, enemyThreeCurPos, baddyStart3, 1500)
+    setTimeout(() => {
 
+      currentScore = 0
+      currentLives = 3
+      currentLevel = 1
+      score.innerHTML = `${currentScore}`
+      lives.innerHTML = `${currentLives}`
+      level.innerHTML = `${currentLevel}`
+      currentPosition = homePosition
+      addPlayer(homePosition)
+      addBaddyOne(baddyStart1)
+      addBaddyTwo(baddyStart2)
+      addBaddyThree(baddyStart3)
+      baddyMoveRight(removeBaddy, addBaddyOne, enemyOneCurPos, baddyStart1, 1000)
+      baddyMoveLeft(removeBaddy, addBaddyTwo, enemyTwoCurPos, baddyStart2, 500)
+      baddyMoveRight(removeBaddy, addBaddyThree, enemyThreeCurPos, baddyStart3, 1500)
+    }, 1000);
 
   }
   startButton.addEventListener('click', startgame)
