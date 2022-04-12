@@ -3,6 +3,9 @@ function init() {
   //elements
   const grid = document.querySelector('.grid')
   const startButton = document.querySelector('#start-btn')
+  const instructions = document.querySelector('#instructions')
+  const gameover = document.querySelector('#gameover')
+
 
   //* variables
   //grid variables
@@ -21,11 +24,12 @@ function init() {
   let currentLevel = 1
   let leftTimer
   let rightTimer
+  let difficulty = 1
 
   // player variables
-  // const playerPosition = cells[4][24]
   let homePosition = ((width * width) - (Math.ceil(width / 2)))
   let currentPosition = homePosition
+
   // enemy variables
   const enemyClasses = ['enemyOne', 'enemyTwo', 'enemyThree']
   let enemyCount = width + currentLevel
@@ -43,9 +47,6 @@ function init() {
     let randomPosition = Math.floor(Math.random() * totalGrid)
     return randomPosition
   }
-  // function loseCondition(event) {
-  // }
-
 
   //? ====== player ======
 
@@ -54,19 +55,11 @@ function init() {
   function addPlayer(position) {
     cells[position].classList.add('player')
     if (cells[position].classList.contains('finish')) {
-      currentScore += 100
-      score.innerHTML = `${currentScore}`
-      currentLevel += 1
-      level.innerHTML = `${currentLevel}`
-      removePlayer(currentPosition)
-      currentPosition = homePosition
-      addPlayer(currentPosition)
+      playerWin()
     } else
       if (enemyClasses.some(className => cells[position].classList.contains(className))) {
         playerTouch()
       }
-    //! if (cells[position].classList.contains('enemyOne') || cells[position].classList.contains('enemyTwo') || cells[position].classList.contains('enemyThree')) {}
-
 
   }
   function removePlayer(position) {
@@ -122,7 +115,17 @@ function init() {
       clearBaddy()
       console.log('game over')
     }
+  }
 
+  //* player win 
+  function playerWin() {
+    currentScore += (100 * width)
+    score.innerHTML = `${currentScore}`
+    currentLevel += 1
+    level.innerHTML = `${currentLevel}`
+    removePlayer(currentPosition)
+    currentPosition = homePosition
+    addPlayer(currentPosition)
   }
   //event
   document.addEventListener('keydown', keyPress)
@@ -160,18 +163,11 @@ function init() {
   }
   function removeBaddy(position) {
     cells[position].classList.remove('enemyOne', 'enemyTwo', 'enemyThree')
-
-    //! cells[position].classList.remove('enemyTwo')
-    //! cells[position].classList.remove('enemyThree')
-
   }
   ///clear board after gameover
   function clearBaddy() {
     for (let i = 0; i < totalGrid; i++) {
       cells[i].classList.remove('enemyOne', 'enemyTwo', 'enemyThree')
-
-      //! cells[i].classList.remove('enemyTwo')
-      //! cells[i].classList.remove('enemyThree')
     }
   }
   //* enemy movement
@@ -189,9 +185,7 @@ function init() {
           addEn(current)
         }
       } else {
-        clearBaddy()
-        clearInterval(rightTimer)
-        startButton.disabled = false
+        gameoverState()
       }
     }, x)
   }
@@ -208,16 +202,13 @@ function init() {
           current--
           addEn(current)
         }
-      } else if (currentLives === 0){
-        clearBaddy()
-        clearInterval(leftTimer)
-        startButton.disabled = false
+      } else if (currentLives === 0) {
+        gameoverState()
       }
     }, x)
   }
 
   //? ====== grid ======
-
 
   //exe
   //* make grid
@@ -246,8 +237,6 @@ function init() {
     grid.querySelectorAll('div').forEach(n => n.remove())
   }
 
-
-
   //* set homeRow and winRow
 
   function setHome() {
@@ -261,9 +250,27 @@ function init() {
       cells[i].classList.add('finish')
     }
   }
-  //? game start/end 
+  // event
+  makeGrid()
+  setFinish()
+  setHome()
 
-  /// ?======== events =======
+
+
+  // ?======== game states =======
+
+  //exe
+  //*depending on difficulty run these gamestates
+  function gridFive() {
+
+  }
+  function gridSeven() {
+
+  }
+  function gridNine() {
+
+  }
+
   function reset() {
     enemyOneCurPos = baddyStart1
     enemyTwoCurPos = baddyStart2
@@ -278,11 +285,22 @@ function init() {
     clearInterval(leftTimer)
     clearInterval(rightTimer)
   }
-  makeGrid()
-  setFinish()
-  setHome()
+
+  //* game over
+  function gameoverState() {
+    gameover.style.display = 'block'
+    clearBaddy()
+    clearInterval(leftTimer)
+    clearInterval(rightTimer)
+    startButton.disabled = false
+  }
+  //? game start/end 
+
+
   function startgame() {
     reset()
+    gameover.style.display = 'none'
+    instructions.style.display = 'none'
     setTimeout(() => {
       addPlayer(homePosition)
       addBaddyOne(baddyStart1)
@@ -295,6 +313,7 @@ function init() {
     }, 1000);
     startButton.disabled = true
   }
+  // events
   startButton.addEventListener('click', startgame)
 }
 window.addEventListener('DOMContentLoaded', init)

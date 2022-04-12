@@ -15,12 +15,10 @@
 </head>
 
 <body>
-  <header>
+  <main>
     <h1>FROGGER</h1>
     <!-- optional high score stored on localstorage -->
     <p>Hi-Score: <span id="hi-score">0</span></p>
-  </header>
-  <main>
     <!-- player lives, score and game level will update -->
     <section class="game-info">
       <p>Level: <span id="level">0</span></p>
@@ -30,10 +28,15 @@
     <!-- container for grid -->
     <section class="game-grid-wrapper">
       <!-- actual game grid, grid cells generated from javascript-->
+      <div id="instructions">
+        <p>Navigate to the top of the screen while avoiding the obstacles</p>
+        <p>Controls: &uparrow; &downarrow; &leftarrow; &rightarrow;</p>
+      </div>
+      <div id="gameover"><span>GAME OVER!</span></div>
       <div class="grid"></div>
     </section>
     <!-- starts game and resets game info-->
-    <button id="start-btn">START</button>
+    <button id="start-btn">PLAY</button>
     <!-- optional sound things -->
     <audio id="audio" src=""></audio>
     <audio id="bg-audio" src=""></audio>
