@@ -12,20 +12,6 @@ function init() {
   let homeRowStart = (width * width) - width
   let totalGrid = width * width
 
-  // player variables
-  const playerClass = 'player'
-  let homePosition = ((width * width) - (Math.ceil(width / 2)))
-  let currentPosition = homePosition
-  // enemy variables
-  const enemyClasses = ['enemyOne', 'enemyTwo', 'enemyThree']
-  let baddyStart1 = width
-  let baddyStart2 = (width * 3) - 1
-  let baddyStart3 = width * 3
-  let enemyOneCurPos = baddyStart1
-  let enemyTwoCurPos = baddyStart2
-  let enemyThreeCurPos = baddyStart3
-
-
   // Level variable
   const score = document.querySelector('#score')
   const lives = document.querySelector('#lives')
@@ -33,8 +19,22 @@ function init() {
   let currentScore = 0
   let currentLives = 3
   let currentLevel = 1
+  let leftTimer
+  let rightTimer
 
-
+  // player variables
+  // const playerPosition = cells[4][24]
+  let homePosition = ((width * width) - (Math.ceil(width / 2)))
+  let currentPosition = homePosition
+  // enemy variables
+  const enemyClasses = ['enemyOne', 'enemyTwo', 'enemyThree']
+  let enemyCount = width + currentLevel
+  const baddyStart1 = width
+  const baddyStart2 = (width * 3) - 1
+  const baddyStart3 = width * 3
+  let enemyOneCurPos = baddyStart1
+  let enemyTwoCurPos = baddyStart2
+  let enemyThreeCurPos = baddyStart3
 
   //? ====== Level ======
 
@@ -61,14 +61,12 @@ function init() {
       removePlayer(currentPosition)
       currentPosition = homePosition
       addPlayer(currentPosition)
-      console.log(score)
-      console.log(currentLives)
-    } else 
+    } else
       if (enemyClasses.some(className => cells[position].classList.contains(className))) {
         playerTouch()
       }
-     //! if (cells[position].classList.contains('enemyOne') || cells[position].classList.contains('enemyTwo') || cells[position].classList.contains('enemyThree')) {}
-      
+    //! if (cells[position].classList.contains('enemyOne') || cells[position].classList.contains('enemyTwo') || cells[position].classList.contains('enemyThree')) {}
+
 
   }
   function removePlayer(position) {
@@ -105,6 +103,7 @@ function init() {
       addPlayer(currentPosition)
     } else {
       clearBaddy()
+      startButton.disabled = false
       console.log('gameover')
     }
   }
@@ -119,7 +118,11 @@ function init() {
       currentPosition = homePosition
       addPlayer(currentPosition)
       console.log(currentLives)
+    } else {
+      clearBaddy()
+      console.log('game over')
     }
+
   }
   //event
   document.addEventListener('keydown', keyPress)
@@ -133,7 +136,7 @@ function init() {
     //   cells[position].classList.add('enemyOne')
     // }
     cells[position].classList.add('enemyOne')
-    if (cells[position].classList.contains('player')){
+    if (cells[position].classList.contains('player')) {
       playerTouch()
     }
   }
@@ -142,7 +145,7 @@ function init() {
     //   cells[position].classList.add('enemyOne')
     // }
     cells[position].classList.add('enemyTwo')
-    if (cells[position].classList.contains('player')){
+    if (cells[position].classList.contains('player')) {
       playerTouch()
     }
   }
@@ -151,68 +154,68 @@ function init() {
     //   cells[position].classList.add('enemyOne')
     // }
     cells[position].classList.add('enemyThree')
-    if (cells[position].classList.contains('player')){
+    if (cells[position].classList.contains('player')) {
       playerTouch()
     }
   }
   function removeBaddy(position) {
-    cells[position].classList.remove('enemyOne', 'enemyTwo' , 'enemyThree')
+    cells[position].classList.remove('enemyOne', 'enemyTwo', 'enemyThree')
+
     //! cells[position].classList.remove('enemyTwo')
     //! cells[position].classList.remove('enemyThree')
 
   }
+  ///clear board after gameover
   function clearBaddy() {
     for (let i = 0; i < totalGrid; i++) {
       cells[i].classList.remove('enemyOne', 'enemyTwo', 'enemyThree')
+
       //! cells[i].classList.remove('enemyTwo')
       //! cells[i].classList.remove('enemyThree')
     }
   }
   //* enemy movement
-  function baddyMoveRight(take, give, current, start, x) {
-    countTimer = setInterval(() => {
+  function baddyMoveRight(removeEn, addEn, current, start, x) {
+    rightTimer = setInterval(() => {
       if (currentLives > 0) {
-        take(current)
-        if (current === (width * 2) - 1) {
-          take(current)
-          give(start)
-          current = start - 1
-          current++
-        } else if (current === (width * 4) - 1) {
-          take(current)
-          give(start)
+        removeEn(current)
+        if (current === (width * 2) - 1 || current === (width * 4) - 1) {
+          removeEn(current)
+          addEn(start)
           current = start - 1
           current++
         } else {
           current++
-          give(current)
+          addEn(current)
         }
       } else {
         clearBaddy()
-        clearInterval(countTimer)
+        clearInterval(rightTimer)
+        startButton.disabled = false
       }
     }, x)
   }
-  function baddyMoveLeft(take, give, current, start, x) {
-    countTimer = setInterval(() => {
+  function baddyMoveLeft(removeEn, addEn, current, start, x) {
+    leftTimer = setInterval(() => {
       if (currentLives > 0) {
-        take(current)
+        removeEn(current)
         if (current === width * 2) {
-          take(current)
-          give(start)
+          removeEn(current)
+          addEn(start)
           current = start + 1
           current--
         } else {
           current--
-          give(current)
+          addEn(current)
         }
-      } else {
+      } else if (currentLives === 0){
         clearBaddy()
-        clearInterval(countTimer)
+        clearInterval(leftTimer)
+        startButton.disabled = false
       }
     }, x)
   }
- 
+
   //? ====== grid ======
 
 
@@ -220,15 +223,30 @@ function init() {
   //* make grid
 
   function makeGrid() {
+    // resetGrid()
     for (let i = 0; i < cellCount; i++) {
       const cell = document.createElement('div')
       cell.id = i
       grid.appendChild(cell)
       cells.push(cell)
+      if (width === 7) {
+        cell.style.width = 'calc(100% /7)'
+        cell.style.height = 'calc(100% /7)'
+      } else if (width === 9) {
+        cell.style.width = 'calc(100% /9)'
+        cell.style.height = 'calc(100% /9)'
+      } else {
+        cell.style.width = 'calc(100% /5)'
+        cell.style.height = 'calc(100% /5)'
+      }
     }
-
   }
-  makeGrid()
+
+  function resetGrid() {
+    grid.querySelectorAll('div').forEach(n => n.remove())
+  }
+
+
 
   //* set homeRow and winRow
 
@@ -246,19 +264,26 @@ function init() {
   //? game start/end 
 
   /// ?======== events =======
+  function reset() {
+    enemyOneCurPos = baddyStart1
+    enemyTwoCurPos = baddyStart2
+    enemyThreeCurPos = baddyStart3
+    currentScore = 0
+    currentLives = 3
+    currentLevel = 1
+    score.innerHTML = `${currentScore}`
+    lives.innerHTML = `${currentLives}`
+    level.innerHTML = `${currentLevel}`
+    currentPosition = homePosition
+    clearInterval(leftTimer)
+    clearInterval(rightTimer)
+  }
+  makeGrid()
   setFinish()
   setHome()
-
   function startgame() {
+    reset()
     setTimeout(() => {
-
-      currentScore = 0
-      currentLives = 3
-      currentLevel = 1
-      score.innerHTML = `${currentScore}`
-      lives.innerHTML = `${currentLives}`
-      level.innerHTML = `${currentLevel}`
-      currentPosition = homePosition
       addPlayer(homePosition)
       addBaddyOne(baddyStart1)
       addBaddyTwo(baddyStart2)
@@ -266,8 +291,9 @@ function init() {
       baddyMoveRight(removeBaddy, addBaddyOne, enemyOneCurPos, baddyStart1, 1000)
       baddyMoveLeft(removeBaddy, addBaddyTwo, enemyTwoCurPos, baddyStart2, 500)
       baddyMoveRight(removeBaddy, addBaddyThree, enemyThreeCurPos, baddyStart3, 1500)
-    }, 1000);
 
+    }, 1000);
+    startButton.disabled = true
   }
   startButton.addEventListener('click', startgame)
 }
