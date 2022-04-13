@@ -5,8 +5,8 @@
 /* usual webpage things */
 body {
   margin: 0;
-    background-color: #367761;
-    font-family: 'Orbitron', sans-serif;
+  background-color: #367761;
+  font-family: 'Orbitron', sans-serif;
 }
 
 h1 {
@@ -15,12 +15,12 @@ h1 {
 
 main {
   background-color: white;
-    text-align: center;
-    width: fit-content;
-    margin: 10px auto;
-    padding: 20px 20px 10px;
-    border-radius: 10px;
-    box-shadow: 6px 4px 14px 0px;
+  text-align: center;
+  width: fit-content;
+  margin: 10px auto;
+  padding: 20px 20px 10px;
+  border-radius: 10px;
+  box-shadow: 6px 4px 14px 0px;
 }
 
 .game-info {
@@ -50,6 +50,7 @@ main {
   color: white;
   border-color: aquamarine;
 }
+
 #start-btn:disabled {
   margin-top: 10px;
   background-color: #afafaf;
@@ -63,6 +64,9 @@ main {
   position: fixed;
   font-size: larger;
   width: 300px;
+  padding: 20px;
+  background-color: rgb(255 255 255 / 85%);
+  border-radius: 5px;
 }
 
 #gameover {
@@ -70,6 +74,9 @@ main {
   font-size: xxx-large;
   font-weight: 700;
   display: none;
+  background-color: aliceblue;
+  padding: 40px;
+  border-radius: 20px;
 }
 
 /* grid stuff  */
@@ -79,6 +86,8 @@ main {
   align-items: center;
   box-shadow: 1px 1px 4px 1px inset;
   border-radius: 5px;
+  overflow: hidden;
+  background-image: url(../assets/background.png);
 }
 
 .grid {
@@ -100,15 +109,27 @@ main {
 
 /* in game stuff */
 .player {
-  background-color: greenyellow;
+  background-image: url(../assets/frog.gif);
+  background-position: center;
+  background-repeat: none;
+  background-size: contain;
+  filter: drop-shadow(3px 2px 2px black);
 }
 
 .enemyOne {
-  background-color: red;
+  background-color: lightsalmon;
+  /* background-image: url(../assets/biff1.png);
+  background-position: center;
+  background-repeat: none;
+  background-size: cover; */
 }
 
 .enemyTwo {
-  background-color: rgb(153, 0, 0);
+  background-color: lightsalmon;
+  /* background-image: url(../assets/deLorean.png);
+  background-position: center;
+  background-repeat: none;
+  background-size: cover; */
 }
 
 .enemyThree {
@@ -116,7 +137,7 @@ main {
 }
 
 .finish {
-  border: 1px dotted rgba(173, 216, 230, 0.5);
+  color: white;
 }
 
 .bad {

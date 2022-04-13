@@ -9,7 +9,7 @@ function init() {
 
   //* variables
   //grid variables
-  let width = 5
+  let width = 7
   let cellCount = width * width
   let cells = []
   let homeRowStart = (width * width) - width
@@ -24,7 +24,9 @@ function init() {
   let currentLevel = 1
   let leftTimer
   let rightTimer
-  let difficulty = 1
+  let spawnTimer
+  let spawnCount = 0
+  let difficulty = 2
 
   // player variables
   let homePosition = ((width * width) - (Math.ceil(width / 2)))
@@ -39,6 +41,13 @@ function init() {
   let enemyOneCurPos = baddyStart1
   let enemyTwoCurPos = baddyStart2
   let enemyThreeCurPos = baddyStart3
+
+  // const gridFiveSpawns = [9, 10, 19]
+  // const gridSevenSpawns = [7, 14, 28, 35]
+  // const gridNineSpawns = [9, 26, 36, 54, 63]
+  // let enemyOneCurPos 
+  // let enemyTwoCurPos 
+  // let enemyThreeCurPos 
 
   //? ====== Level ======
 
@@ -98,6 +107,7 @@ function init() {
       clearBaddy()
       startButton.disabled = false
       console.log('gameover')
+      gameoverState()
     }
   }
   //* player collide
@@ -113,13 +123,13 @@ function init() {
       console.log(currentLives)
     } else {
       clearBaddy()
-      console.log('game over')
+      gameoverState()
     }
   }
 
   //* player win 
   function playerWin() {
-    currentScore += (100 * width)
+    currentScore += (25 * width)
     score.innerHTML = `${currentScore}`
     currentLevel += 1
     level.innerHTML = `${currentLevel}`
@@ -133,34 +143,29 @@ function init() {
 
   //? ====== Enemy ======
 
-  //* add enemy
+  //* add enemy class
   function addBaddyOne(position) {
-    // if (cells[position].classList.contains('finish') === false && cells[position].classList.contains('home') === false) { // random spwan static mob
-    //   cells[position].classList.add('enemyOne')
-    // }
+
     cells[position].classList.add('enemyOne')
     if (cells[position].classList.contains('player')) {
       playerTouch()
     }
   }
   function addBaddyTwo(position) {
-    // if (cells[position].classList.contains('finish') === false && cells[position].classList.contains('home') === false) { // random spwan static mob
-    //   cells[position].classList.add('enemyOne')
-    // }
+
     cells[position].classList.add('enemyTwo')
     if (cells[position].classList.contains('player')) {
       playerTouch()
     }
   }
   function addBaddyThree(position) {
-    // if (cells[position].classList.contains('finish') === false && cells[position].classList.contains('home') === false) { // random spwan static mob
-    //   cells[position].classList.add('enemyOne')
-    // }
+
     cells[position].classList.add('enemyThree')
     if (cells[position].classList.contains('player')) {
       playerTouch()
     }
   }
+//* remove enemy class
   function removeBaddy(position) {
     cells[position].classList.remove('enemyOne', 'enemyTwo', 'enemyThree')
   }
@@ -175,7 +180,7 @@ function init() {
     rightTimer = setInterval(() => {
       if (currentLives > 0) {
         removeEn(current)
-        if (current === (width * 2) - 1 || current === (width * 4) - 1) {
+        if (current === 13 || current === 20 || current === 34) {
           removeEn(current)
           addEn(start)
           current = start - 1
@@ -187,13 +192,13 @@ function init() {
       } else {
         gameoverState()
       }
-    }, x)
+    }, x - (currentLevel * 15))
   }
   function baddyMoveLeft(removeEn, addEn, current, start, x) {
     leftTimer = setInterval(() => {
       if (currentLives > 0) {
         removeEn(current)
-        if (current === width * 2) {
+        if (current === 35) {
           removeEn(current)
           addEn(start)
           current = start + 1
@@ -205,9 +210,20 @@ function init() {
       } else if (currentLives === 0) {
         gameoverState()
       }
-    }, x)
+    }, x - (currentLevel * 10))
   }
 
+function spawnGridSevenRight(){
+    spawnTimer = setInterval(() => {
+      spawnCount ++
+      baddyMoveRight(removeBaddy,addBaddyTwo, spawnCount + 28, 28, 700)
+      baddyMoveLeft(removeBaddy,addBaddyOne, spawnCount+ 38, 41, 700)
+      setTimeout(() => {
+        clearInterval(spawnTimer)
+        spawnCount = 0
+      }, 4000);
+    }, 2000)
+  }
   //? ====== grid ======
 
   //exe
@@ -262,28 +278,35 @@ function init() {
   //exe
   //*depending on difficulty run these gamestates
   function gridFive() {
-
+    baddyMoveRight(removeBaddy, addBaddyOne, enemyOneCurPos, baddyStart1, 400)
+    baddyMoveLeft(removeBaddy, addBaddyOne, enemyTwoCurPos, baddyStart2, 400)
+    baddyMoveRight(removeBaddy, addBaddyThree, enemyThreeCurPos, baddyStart3, 600)
   }
   function gridSeven() {
+    baddyMoveRight(removeBaddy, addBaddyOne, 7, 7, 300)
+    baddyMoveRight(removeBaddy, addBaddyOne, 16, 14, 550)
+    for (let i = 21; i < 28; i++) {
+      (i === 22 || i === 24 || i === 26) ? removeBaddy(i) : addBaddyThree(i)
+    }
+    spawnGridSevenRight()
+      
+    }
+  
+  // function gridNine() {
 
-  }
-  function gridNine() {
-
-  }
+  // }
 
   function reset() {
-    enemyOneCurPos = baddyStart1
-    enemyTwoCurPos = baddyStart2
-    enemyThreeCurPos = baddyStart3
-    currentScore = 0
+    clearInterval(leftTimer)
+    clearInterval(rightTimer)
+    clearInterval(spawnTimer)
+
     currentLives = 3
     currentLevel = 1
     score.innerHTML = `${currentScore}`
     lives.innerHTML = `${currentLives}`
     level.innerHTML = `${currentLevel}`
     currentPosition = homePosition
-    clearInterval(leftTimer)
-    clearInterval(rightTimer)
   }
 
   //* game over
@@ -292,6 +315,7 @@ function init() {
     clearBaddy()
     clearInterval(leftTimer)
     clearInterval(rightTimer)
+    clearInterval(spawnTimer)
     startButton.disabled = false
   }
   //? game start/end 
@@ -303,12 +327,16 @@ function init() {
     instructions.style.display = 'none'
     setTimeout(() => {
       addPlayer(homePosition)
-      addBaddyOne(baddyStart1)
-      addBaddyTwo(baddyStart2)
-      addBaddyThree(baddyStart3)
-      baddyMoveRight(removeBaddy, addBaddyOne, enemyOneCurPos, baddyStart1, 1000)
-      baddyMoveLeft(removeBaddy, addBaddyTwo, enemyTwoCurPos, baddyStart2, 500)
-      baddyMoveRight(removeBaddy, addBaddyThree, enemyThreeCurPos, baddyStart3, 1500)
+      if (difficulty === 3) {
+        gridNine()
+      } else if (difficulty === 2) {
+        gridSeven()
+      } else {
+        gridFive()
+
+      }
+      
+
 
     }, 1000);
     startButton.disabled = true
