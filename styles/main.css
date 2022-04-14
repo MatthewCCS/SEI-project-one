@@ -50,7 +50,9 @@ main {
   color: white;
   border-color: aquamarine;
 }
-
+#start-btn {
+  cursor: pointer;
+}
 #start-btn:disabled {
   margin-top: 10px;
   background-color: #afafaf;
@@ -59,7 +61,13 @@ main {
   color: rgb(84, 84, 84);
   border-style: none;
 }
-
+#mute-btn{
+  border-style: none;
+  background-color: white;
+}
+#mute-btn:hover{
+  cursor: pointer;
+}
 #instructions {
   position: fixed;
   font-size: larger;
@@ -139,8 +147,8 @@ main {
   background-position: center;
   background-repeat: none;
   background-size: cover;
-  filter: drop-shadow(3px 2px 2px black);
-  filter:invert()
+  filter: drop-shadow(3px 2px 2px white) invert();
+  
 
 }
 
@@ -162,5 +170,5 @@ main {
 }
 
 .home {
-  border: 1px dotted lightgreen;
+  color:#00cf74;
 }

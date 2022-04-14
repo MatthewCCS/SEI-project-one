@@ -3,9 +3,12 @@ function init() {
   //elements
   const grid = document.querySelector('.grid')
   const startButton = document.querySelector('#start-btn')
+  const muteButton = document.querySelector('#mute-btn')
   const instructions = document.querySelector('#instructions')
   const gameover = document.querySelector('#gameover')
   const bgAudio = document.querySelector('#bg-audio')
+  const fxAudio = document.querySelector('#audio-fx')
+  const hiScore = document.querySelector('#hi-score')
 
 
   //* variables
@@ -28,13 +31,15 @@ function init() {
   let spawnTimer
   let spawnCount = 0
   let difficulty = 2
+  bgAudio.volume = 0.1
+  bgAudio.loop = true
 
   // player variables
   let homePosition = ((width * width) - (Math.ceil(width / 2)))
   let currentPosition = homePosition
 
   // enemy variables
-  const enemyClasses = ['red-snake', 'snake', 'duck','car']
+  const enemyClasses = ['red-snake', 'snake', 'duck', 'car']
   let enemyCount = width + currentLevel
   const baddyStart1 = width
   const baddyStart2 = (width * 3) - 1
@@ -53,10 +58,6 @@ function init() {
   //? ====== Level ======
 
   //exe 
-  function randomPosition() {
-    let randomPosition = Math.floor(Math.random() * totalGrid)
-    return randomPosition
-  }
 
   //? ====== player ======
 
@@ -65,6 +66,8 @@ function init() {
   function addPlayer(position) {
     cells[position].classList.add('player')
     if (cells[position].classList.contains('finish')) {
+      fxAudio.setAttribute('src', 'assets/sounds/jump.mp3')
+      fxAudio.play()
       playerWin()
     } else
       if (enemyClasses.some(className => cells[position].classList.contains(className))) {
@@ -149,6 +152,8 @@ function init() {
 
     cells[position].classList.add('red-snake')
     if (cells[position].classList.contains('player')) {
+      fxAudio.setAttribute('src', 'assets/sounds/snake-hiss.mp3')
+      fxAudio.play()
       playerTouch()
     }
   }
@@ -156,6 +161,8 @@ function init() {
 
     cells[position].classList.add('snake')
     if (cells[position].classList.contains('player')) {
+      fxAudio.setAttribute('src', 'assets/sounds/snake-hiss.mp3')
+      fxAudio.play()
       playerTouch()
     }
   }
@@ -163,6 +170,8 @@ function init() {
 
     cells[position].classList.add('duck')
     if (cells[position].classList.contains('player')) {
+      fxAudio.setAttribute('src', 'assets/sounds/Quack.mp3')
+      fxAudio.play()
       playerTouch()
     }
   }
@@ -170,17 +179,19 @@ function init() {
 
     cells[position].classList.add('car')
     if (cells[position].classList.contains('player')) {
+      fxAudio.setAttribute('src', 'assets/sounds/car-crash.mp3')
+      fxAudio.play()
       playerTouch()
     }
   }
-//* remove enemy class
+  //* remove enemy class
   function removeBaddy(position) {
     cells[position].classList.remove('red-snake', 'snake', 'duck', 'car')
   }
   ///clear board after gameover
   function clearBaddy() {
     for (let i = 0; i < totalGrid; i++) {
-      cells[i].classList.remove('red-snake', 'snake', 'duck','car')
+      cells[i].classList.remove('red-snake', 'snake', 'duck', 'car')
     }
   }
   //* enemy movement
@@ -221,17 +232,6 @@ function init() {
     }, x - (currentLevel * 10))
   }
 
-function spawnGridSevenRight(){
-    spawnTimer = setInterval(() => {
-      spawnCount ++
-      baddyMoveRight(removeBaddy,addBaddyTwo, spawnCount + 28, 28, 700)
-      baddyMoveLeft(removeBaddy,addBaddyOne, spawnCount+ 38, 41, 700)
-      setTimeout(() => {
-        clearInterval(spawnTimer)
-        spawnCount = 0
-      }, 4000);
-    }, 2000)
-  }
   //? ====== grid ======
 
   //exe
@@ -291,18 +291,37 @@ function spawnGridSevenRight(){
     baddyMoveRight(removeBaddy, addBaddyThree, enemyThreeCurPos, baddyStart3, 600)
   }
   function gridSeven() {
-    baddyMoveRight(removeBaddy, addBaddyFour, 7, 7, 300)
-    baddyMoveRight(removeBaddy, addBaddyFour, 16, 14, 500)
+
     for (let i = 21; i < 28; i++) {
       (i === 22 || i === 24 || i === 26) ? removeBaddy(i) : addBaddyThree(i)
     }
-    spawnGridSevenRight()
-      
-    }
-  
-  // function gridNine() {
+    spawnTimer = setInterval(() => {
+      baddyMoveRight(removeBaddy, addBaddyFour, 7, 7, 300)
+      baddyMoveRight(removeBaddy, addBaddyFour, 16, 14, 500)
+      spawnCount++
+      baddyMoveRight(removeBaddy, addBaddyTwo, spawnCount + 28, 28, 700)
+      baddyMoveLeft(removeBaddy, addBaddyOne, spawnCount + 38, 41, 700)
+      setTimeout(() => {
+        clearInterval(spawnTimer)
+        spawnCount = 0
+      }, 4000);
+    }, 2000)
 
+  }
+
+  // function gridNine() {
   // }
+function toggleAudio(){
+  if(bgAudio.muted === true ){
+    bgAudio.muted = false
+    muteButton.innerHTML = '&#x1f50a'
+  }  else{
+    bgAudio.muted = true
+    muteButton.innerHTML = '&#x1f507'
+  } 
+ }
+
+
 
   function reset() {
     clearInterval(leftTimer)
@@ -344,7 +363,7 @@ function spawnGridSevenRight(){
         gridFive()
 
       }
-      
+
 
 
     }, 1000);
@@ -352,5 +371,6 @@ function spawnGridSevenRight(){
   }
   // events
   startButton.addEventListener('click', startgame)
+  muteButton.addEventListener('click', toggleAudio)
 }
 window.addEventListener('DOMContentLoaded', init)
