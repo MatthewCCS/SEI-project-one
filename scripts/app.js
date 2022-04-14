@@ -5,6 +5,7 @@ function init() {
   const startButton = document.querySelector('#start-btn')
   const instructions = document.querySelector('#instructions')
   const gameover = document.querySelector('#gameover')
+  const bgAudio = document.querySelector('#bg-audio')
 
 
   //* variables
@@ -33,7 +34,7 @@ function init() {
   let currentPosition = homePosition
 
   // enemy variables
-  const enemyClasses = ['enemyOne', 'enemyTwo', 'enemyThree']
+  const enemyClasses = ['red-snake', 'snake', 'duck','car']
   let enemyCount = width + currentLevel
   const baddyStart1 = width
   const baddyStart2 = (width * 3) - 1
@@ -146,33 +147,40 @@ function init() {
   //* add enemy class
   function addBaddyOne(position) {
 
-    cells[position].classList.add('enemyOne')
+    cells[position].classList.add('red-snake')
     if (cells[position].classList.contains('player')) {
       playerTouch()
     }
   }
   function addBaddyTwo(position) {
 
-    cells[position].classList.add('enemyTwo')
+    cells[position].classList.add('snake')
     if (cells[position].classList.contains('player')) {
       playerTouch()
     }
   }
   function addBaddyThree(position) {
 
-    cells[position].classList.add('enemyThree')
+    cells[position].classList.add('duck')
+    if (cells[position].classList.contains('player')) {
+      playerTouch()
+    }
+  }
+  function addBaddyFour(position) {
+
+    cells[position].classList.add('car')
     if (cells[position].classList.contains('player')) {
       playerTouch()
     }
   }
 //* remove enemy class
   function removeBaddy(position) {
-    cells[position].classList.remove('enemyOne', 'enemyTwo', 'enemyThree')
+    cells[position].classList.remove('red-snake', 'snake', 'duck', 'car')
   }
   ///clear board after gameover
   function clearBaddy() {
     for (let i = 0; i < totalGrid; i++) {
-      cells[i].classList.remove('enemyOne', 'enemyTwo', 'enemyThree')
+      cells[i].classList.remove('red-snake', 'snake', 'duck','car')
     }
   }
   //* enemy movement
@@ -283,8 +291,8 @@ function spawnGridSevenRight(){
     baddyMoveRight(removeBaddy, addBaddyThree, enemyThreeCurPos, baddyStart3, 600)
   }
   function gridSeven() {
-    baddyMoveRight(removeBaddy, addBaddyOne, 7, 7, 300)
-    baddyMoveRight(removeBaddy, addBaddyOne, 16, 14, 550)
+    baddyMoveRight(removeBaddy, addBaddyFour, 7, 7, 300)
+    baddyMoveRight(removeBaddy, addBaddyFour, 16, 14, 500)
     for (let i = 21; i < 28; i++) {
       (i === 22 || i === 24 || i === 26) ? removeBaddy(i) : addBaddyThree(i)
     }
@@ -322,6 +330,7 @@ function spawnGridSevenRight(){
 
 
   function startgame() {
+    bgAudio.play()
     reset()
     gameover.style.display = 'none'
     instructions.style.display = 'none'

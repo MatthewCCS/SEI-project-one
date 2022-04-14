@@ -116,24 +116,41 @@ main {
   filter: drop-shadow(3px 2px 2px black);
 }
 
-.enemyOne {
-  background-color: lightsalmon;
-  /* background-image: url(../assets/biff1.png);
+.car{
+  background-image: url(../assets/car1.gif);
   background-position: center;
   background-repeat: none;
-  background-size: cover; */
+  background-size: cover;
+  filter: drop-shadow(3px 2px 2px black);
+
 }
 
-.enemyTwo {
-  background-color: lightsalmon;
-  /* background-image: url(../assets/deLorean.png);
+.snake {
+  background-image: url(../assets/snake.gif);
+  transform: scaleX(-1);
   background-position: center;
   background-repeat: none;
-  background-size: cover; */
+  background-size: cover;
+  filter: drop-shadow(3px 2px 2px black);
+
+}
+.red-snake {
+  background-image: url(../assets/snake.gif);
+  background-position: center;
+  background-repeat: none;
+  background-size: cover;
+  filter: drop-shadow(3px 2px 2px black);
+  filter:invert()
+
 }
 
-.enemyThree {
-  background-color: rgb(75, 24, 24);
+.duck{
+  background-image: url(../assets/duck1.gif);
+  background-position: center;
+  background-repeat: none;
+  background-size: cover;
+  filter: drop-shadow(3px 2px 2px black);
+
 }
 
 .finish {
