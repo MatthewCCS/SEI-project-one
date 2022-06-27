@@ -1,4 +1,4 @@
-*# SEI-project-one*
+## SEI-project-one
 
 # Project 1 - Paper Frogger
 
