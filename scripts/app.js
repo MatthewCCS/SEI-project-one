@@ -148,7 +148,7 @@ function init() {
   //? ====== Enemy ======
 
   //* add enemy class
-  function addBaddyOne(position) {
+  function addRedSnake(position) {
 
     cells[position].classList.add('red-snake')
     if (cells[position].classList.contains('player')) {
@@ -157,7 +157,7 @@ function init() {
       playerTouch()
     }
   }
-  function addBaddyTwo(position) {
+  function addBlueSnake(position) {
 
     cells[position].classList.add('snake')
     if (cells[position].classList.contains('player')) {
@@ -166,7 +166,7 @@ function init() {
       playerTouch()
     }
   }
-  function addBaddyThree(position) {
+  function addDuck(position) {
 
     cells[position].classList.add('duck')
     if (cells[position].classList.contains('player')) {
@@ -175,7 +175,7 @@ function init() {
       playerTouch()
     }
   }
-  function addBaddyFour(position) {
+  function addCar(position) {
 
     cells[position].classList.add('car')
     if (cells[position].classList.contains('player')) {
@@ -195,41 +195,45 @@ function init() {
     }
   }
   //* enemy movement
-  function baddyMoveRight(removeEn, addEn, current, start, x) {
-    rightTimer = setInterval(() => {
-      if (currentLives > 0) {
-        removeEn(current)
-        if (current === 13 || current === 20 || current === 34) {
-          removeEn(current)
-          addEn(start)
-          current = start - 1
-          current++
-        } else {
-          current++
-          addEn(current)
-        }
+  function carMove() {
+    for (let i = 7; i < 14; i++) {
+
+      if (cells[i].classList.contains('car')) {
+        cells[i].classList.remove('car')
+        cells[i + 1].classList.add('car')
       } else {
-        gameoverState()
+        cells[i - 1].classList.add('car')
+        cells[i].classList.remove('car')
       }
-    }, x - (currentLevel * 15))
+    }
   }
+
+  function blueCarMove() {
+    if (cells[i].classList.contains('car')) {
+
+
+
+    }
+  }
+
+
   function baddyMoveLeft(removeEn, addEn, current, start, x) {
-    leftTimer = setInterval(() => {
-      if (currentLives > 0) {
+
+    if (currentLives > 0) {
+      removeEn(current)
+      if (current === 35) {
         removeEn(current)
-        if (current === 35) {
-          removeEn(current)
-          addEn(start)
-          current = start + 1
-          current--
-        } else {
-          current--
-          addEn(current)
-        }
-      } else if (currentLives === 0) {
-        gameoverState()
+        addEn(start)
+        current = start + 1
+        current--
+      } else {
+        current--
+        addEn(current)
       }
-    }, x - (currentLevel * 10))
+    } else if (currentLives === 0) {
+      removeEn(current)
+      gameoverState()
+    }
   }
 
   //? ====== grid ======
@@ -242,6 +246,7 @@ function init() {
     for (let i = 0; i < cellCount; i++) {
       const cell = document.createElement('div')
       cell.id = i
+      cell.innerHTML = `${i}`
       grid.appendChild(cell)
       cells.push(cell)
       if (width === 7) {
@@ -293,33 +298,45 @@ function init() {
   function gridSeven() {
 
     for (let i = 21; i < 28; i++) {
-      (i === 22 || i === 24 || i === 26) ? removeBaddy(i) : addBaddyThree(i)
+      (i === 22 || i === 24 || i === 26) ? removeBaddy(i) : addDuck(i)
     }
-    spawnTimer = setInterval(() => {
-      baddyMoveRight(removeBaddy, addBaddyFour, 7, 7, 300)
-      baddyMoveRight(removeBaddy, addBaddyFour, 16, 14, 500)
-      spawnCount++
-      baddyMoveRight(removeBaddy, addBaddyTwo, spawnCount + 28, 28, 700)
-      baddyMoveLeft(removeBaddy, addBaddyOne, spawnCount + 38, 41, 700)
-      setTimeout(() => {
-        clearInterval(spawnTimer)
-        spawnCount = 0
-      }, 4000);
-    }, 2000)
+    for (let i = 7; i < 14; i++) {
+      (i === 8 || i === 10 || i === 12 || i === 13) ? removeBaddy(i) : addCar(i)
+    }
+    leftTimer = setInterval(() => {
+      baddyMoveLeft(removeBaddy, addRedSnake, 37, 41, 1000)
+      baddyMoveLeft(removeBaddy, addRedSnake, 39, 41, 1000)
+    }, 1000);
+
+
+
+
+
+    // spawnTimer = setInterval(() => {
+    //   baddyMoveRight(removeBaddy, addBaddyFour, 7, 7, 300)
+    //   baddyMoveRight(removeBaddy, addBaddyFour, 16, 14, 500)
+    //   spawnCount++
+    //   baddyMoveRight(removeBaddy, addBaddyTwo, spawnCount + 28, 28, 700)
+    //   baddyMoveLeft(removeBaddy, addBaddyOne, spawnCount + 38, 41, 700)
+    //   setTimeout(() => {
+    //     clearInterval(spawnTimer)
+    //     spawnCount = 0
+    //   }, 4000);
+    // }, 2000)
 
   }
 
   // function gridNine() {
   // }
-function toggleAudio(){
-  if(bgAudio.muted === true ){
-    bgAudio.muted = false
-    muteButton.innerHTML = '&#x1f50a'
-  }  else{
-    bgAudio.muted = true
-    muteButton.innerHTML = '&#x1f507'
-  } 
- }
+  function toggleAudio() {
+    if (bgAudio.muted === true) {
+      bgAudio.muted = false
+      muteButton.innerHTML = '&#x1f50a'
+    } else {
+      bgAudio.muted = true
+      muteButton.innerHTML = '&#x1f507'
+    }
+  }
 
 
 
