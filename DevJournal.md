@@ -4,7 +4,7 @@
  
 #### Day 1 - Planning 
  
-I initially didn’t have a particular theme in mind so I started with basic wire frame on what I wanted the game to look like structure wise and consider what features the game should have.
+I initially didn’t have a particular theme in mind so I started with a basic wire frame on what I wanted the game to look like structure wise and consider what features the game should have.
  
 ![wireframe](./planning/wireframe.png)
  
@@ -42,7 +42,7 @@ Introduced some static enemies to test collision, win/lose conditions and updati
 Removed the original randomly generated obstacles and added linear moving obstacles. Used different ways to add obstacles, the eventual solution is not the most elegant and will definitely require revisiting in the future. Refactored some code.
  
 #### Day 5 
-Created some graphics for the game based on a paper craft theme and added some sounds into the game. 
+Created some graphics for the game based on a paper craft theme and added some sounds into the game.  
 ![frog](./assets/frog.gif) ![duck](./assets/duck1.gif) ![snake](./assets/snake.gif) ![car](./assets/car1.gif)
  
 #### Day 6 

@@ -39,7 +39,7 @@ Brief: Build a grid based game using HTML, CSS and javascript.
 ![!](https://img.shields.io/static/v1?style=plastic&logo=eslint&logoColor=blue&logoWidth=&label=&message=ESLint&color=333333)
 ![!](https://img.shields.io/static/v1?style=plastic&logo=git&logoColor=orange&logoWidth=&label=&message=git&color=333333)
 ![!](https://img.shields.io/static/v1?style=plastic&logo=github&logoColor=white&logoWidth=&label=&message=github&color=333333)
-![!](https://img.shields.io/static/v1?style=plastic&logo=eslint&logoColor=blue&logoWidth=&label=&message=ESLint&color=333333)
+![!](https://img.shields.io/static/v1?style=plastic&logo=googlechrome&logoColor=white&logoWidth=&label=&message=Chrome%20Dev%20Tools&color=333333)
  
  
  
