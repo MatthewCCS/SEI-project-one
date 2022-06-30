@@ -77,6 +77,13 @@ Overall the build process was interesting and fun even when I had some bugs in t
 - Implement high score feature
 - Fix obstacle bug
 - Difficulty selector/ level scaling mode
+
+<details>
+<summary>Bug Fixes</summary>
+
+  - [ ] Post game restart obstacle bug
+
+</details>
  
 ## Credits
  
