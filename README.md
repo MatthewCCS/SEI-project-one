@@ -22,8 +22,15 @@ Link to deployed game [Paper Frogger](https://matthewccs.github.io/SEI-project-o
  
 ## Project Brief
  
-Time frame: 7 days 
+Time frame: 7 days  
 Brief: Build a grid based game using HTML, CSS and javascript.  
+
+<details>
+<summary>Wireframe</summary>
+
+![wireframe](./planning/wireframe.png)
+
+</details>
  
 ## Technologies Used
  
@@ -49,7 +56,7 @@ Brief: Build a grid based game using HTML, CSS and javascript.
  
 - Start button
 - Up, Down, Left and Right arrows to control moment
-- Mute button to stop music  .
+- Mute button to stop music.  
  
 #### Objectives
  
@@ -74,9 +81,15 @@ Overall the build process was interesting and fun even when I had some bugs in t
  
  
 ## Upcoming Features/ bug fixes
-- Implement high score feature
-- Fix obstacle bug
-- Difficulty selector/ level scaling mode
+
+<details>
+<summary>Upcoming Features</summary>
+
+  - [ ] Implement high score feature
+  - [ ] Difficulty selector/ level scaling mode
+  - [ ] Add different end game win conditions
+
+</details>
 
 <details>
 <summary>Bug Fixes</summary>
