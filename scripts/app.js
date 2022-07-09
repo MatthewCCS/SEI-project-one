@@ -8,7 +8,7 @@ function init() {
   const gameover = document.querySelector('#gameover')
   const bgAudio = document.querySelector('#bg-audio')
   const fxAudio = document.querySelector('#audio-fx')
-  const hiScore = document.querySelector('#hi-score')
+  // const hiScore = document.querySelector('#hi-score')
 
 
   //* variables
