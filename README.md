@@ -22,9 +22,9 @@ Link to deployed game [Paper Frogger](https://matthewccs.github.io/SEI-project-o
 
 ## Project Brief
 
-Solo Project
-Time frame: 7 days 
-Brief: Build a grid based game using HTML, CSS and JavaScript.  
+- Solo Project
+- Time frame: 7 days 
+- Brief: Build a grid based game using HTML, CSS and JavaScript.  
 
 ## Technologies Used
 
