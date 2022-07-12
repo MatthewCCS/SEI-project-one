@@ -19,7 +19,7 @@ Link to deployed game [Paper Frogger](https://matthewccs.github.io/SEI-project-o
 - [Development Reflections](#development-reflections)
   - [Challenges](#challenges)
   - [Wins](#wins)
-  - [Dev Journal](#dev-journal)
+- [Dev Journal](#dev-journal)
 - [Upcoming Features/ Bug Fixes](#upcoming-features-bug-fixes)
 
 ## Project Brief
@@ -71,10 +71,17 @@ Brief: Build a grid based game using HTML, CSS and JavaScript.
 
 Overall the build process was interesting and fun even when I had some bugs in the game. I originally planned to have selectable grid sizes to give users a difficulty option but due to time constraints I was unable to implement that feature.  
 
-### Dev Journal
+### Challenges 
+- managing interval timings
+- obstacle placement, while static obstacles were fine moving objects didn’t quite function as intended
+- using local storage to store the high score
 
-<details>
-<summary>Click</summary>
+### Wins  
+- Completing my first functional grid based JavaScript game
+- Collision detection
+- Player movement and grid constraints
+
+## Dev Journal
 
 ### Approach
 
@@ -124,18 +131,6 @@ Created some graphics for the game based on a paper craft theme and added some s
 
 #### Day 6 
 Finished off the styling and added a mute button.
-
-</details>
-
-### Challenges 
-- managing interval timings
-- obstacle placement, while static obstacles were fine moving objects didn’t quite function as intended
-- using local storage to store the high score
-
-### Wins  
-- Completing my first functional grid based JavaScript game
-- Collision detection
-- Player movement and grid constraints
 
 ## Upcoming Features/ bug fixes
 - Implement high score feature
