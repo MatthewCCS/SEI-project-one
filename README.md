@@ -17,14 +17,16 @@ Link to deployed game [Paper Frogger](https://matthewccs.github.io/SEI-project-o
 - [Getting Started](#getting-started)
 - [Bugs/Missing Features](#bugs-missing-features)
 - [Development Reflections](#development-reflections)
+  - [Challenges](#challenges)
+  - [Wins](#wins)
   - [Dev Journal](#dev-journal)
-- [Upcoming Features](#upcoming-features)
+- [Upcoming Features/ Bug Fixes](#upcoming-features-bug-fixes)
 
 ## Project Brief
 
-- Solo Project
-- Time frame: 7 days 
-- Brief: Build a grid based game using HTML, CSS and JavaScript.  
+Solo Project  
+Time frame: 7 days  
+Brief: Build a grid based game using HTML, CSS and JavaScript.  
 
 ## Technologies Used
 
@@ -131,9 +133,9 @@ Finished off the styling and added a mute button.
 - using local storage to store the high score
 
 ### Wins  
-Completing my first functional grid based JavaScript game
-Collision detection
-Player movement and grid constraints
+- Completing my first functional grid based JavaScript game
+- Collision detection
+- Player movement and grid constraints
 
 ## Upcoming Features/ bug fixes
 - Implement high score feature
